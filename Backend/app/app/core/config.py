@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    pass
+    JWT_secret = "your_secret_key_here"
 
 
 

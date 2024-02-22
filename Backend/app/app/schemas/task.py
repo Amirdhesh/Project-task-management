@@ -1,10 +1,7 @@
-from typing import Optional, List 
-from sqlmodel import SQLModel , Field, Relationship
-from typing import TYPE_CHECKING
+from typing import Optional 
+from sqlmodel import SQLModel , Field
 from datetime import date
-if TYPE_CHECKING:
-    from .user import Users
-    from .project import Projects
+
 
 class TaskBase(SQLModel):
     name : str = Field(index=True,nullable=False)
@@ -14,10 +11,7 @@ class TaskBase(SQLModel):
     user_id : Optional[int] = Field(default=None , foreign_key="users.id")
     project_id : Optional[int] = Field(default=None, foreign_key="projects.id")
 
-class Tasks(TaskBase,table=True):
-    id : Optional[int] = Field(default=None , primary_key=True)
-    user_assigned : Optional["Users"] = Relationship(back_populates="task_assigned")
-    project : List["Projects"] = Relationship(back_populates="tasks")
+
 
 
 class Taskcreate(TaskBase):

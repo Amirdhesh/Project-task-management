@@ -11,9 +11,6 @@ def create_db_and_table():
         print(f"Error creating tables: {e}")
 
 
-def session():
+def get_session():
     with Session(engine) as session:
         yield session
-
-if __name__ == "__main__":
-    create_db_and_table()

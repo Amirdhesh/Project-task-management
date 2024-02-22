@@ -1,10 +1,6 @@
-from typing import Optional, List
-from sqlmodel import SQLModel, Field, Relationship
+from typing import Optional
+from sqlmodel import SQLModel, Field
 from datetime import date
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from .task import Tasks
-    from .team import Teams
 class ProjectBase(SQLModel):
     name : str = Field(index=True,nullable=False)
     description : str = Field(nullable=False)
@@ -14,10 +10,7 @@ class ProjectBase(SQLModel):
     # It causes a many-many mapping
     # task_id : Optional[int] = Field(default=None , foreign_key="tasks.id")
 
-class Projects(ProjectBase,table=True):
-    id : Optional[int] = Field(default=True , primary_key=True)
-    tasks : List["Tasks"] = Relationship(back_populates="project")
-    team_assigned : Optional["Teams"] = Relationship(back_populates="project_assigned")
+
 
 
 class ProjectCreate(ProjectBase):
