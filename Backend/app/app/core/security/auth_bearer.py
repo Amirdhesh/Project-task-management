@@ -66,4 +66,4 @@ class JWTBearer(HTTPBearer):
 
 member_auth = JWTBearer()
 project_manager_auth = JWTBearer(role='Project manager')
-team_leader_auth = JWTBearer(role="Team lember")
+team_leader_auth = JWTBearer(role="Team leader")
