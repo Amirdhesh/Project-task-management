@@ -5,7 +5,7 @@ from core.config import settings
 JWT_secret = settings.JWT_secret
 JWT_algorithm = "HS256"
 
-def signJWT(user) -> Dict[str,str]:
+def signJWT(user):
     payload = {
         "Id" : user.id,
         "expiry" : time() + 600,

@@ -25,3 +25,8 @@ class UserUpdate(SQLModel):
     DOB: Optional[date] = None
     address: Optional[str] = None
     phonenumber: Optional[int] = None
+
+
+class login(SQLModel):
+    email : str
+    password : str
