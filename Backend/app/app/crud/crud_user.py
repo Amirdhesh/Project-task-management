@@ -20,13 +20,14 @@ class UserCRUD:
         return user
     
 
-    def profile_update(self,session,user_update:UserUpdate,user_id):
-        user = session.get(Users,user_id)
+    def profile_update(self,session,user_update:UserUpdate,id):
+        user = session.get(Users,id)
         if not user:
             raise HTTPException(
                 status_code=404,
                 detail= "User not found"
             )
+        
         updates = user_update.model_dump(exclude_unset=True)
         user.sqlmodel_update(updates)
         session.add(user)
@@ -35,16 +36,16 @@ class UserCRUD:
         return {'status' : True}
     
 
-    def password_change(session,new_password):
+    def password_change(session,id,new_password):
         user = session.get(Users,id)
         if not user:
             raise HTTPException(
                 status_code=404,
                 detail= "User not found"
             )
-        user.password = bcrypt.hashpw(new_password.encode('utf-8'),bcrypt.gensalt)
+        user.password = bcrypt.hashpw(new_password.encode('utf-8'),bcrypt.gensalt())
         session.add(user)
         session.commit()
-        session.refresh()
+        session.refresh(user)
         return {'status':True}
         

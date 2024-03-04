@@ -4,8 +4,8 @@ from datetime import date
 class ProjectBase(SQLModel):
     name : str = Field(index=True,nullable=False)
     description : str = Field(nullable=False)
-    status : str = Field(nullable=False)
-    due_date : date = Field(default="Not Completed",nullable=False)
+    status : str = Field(default="Not Completed",nullable=False)
+    due_date : date = Field(default=date.today(),nullable=False)
     team_id : Optional[int] = Field(default=None, foreign_key="teams.id")
     # It causes a many-many mapping
     # task_id : Optional[int] = Field(default=None , foreign_key="tasks.id")

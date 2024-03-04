@@ -29,7 +29,8 @@ def create_user(*,session:Session = Depends(get_session),user_detail:UserCreate)
 def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpdate,userid): #JWT to be added
     try:
         user = UserCRUD()
-        status = user.profile_update(session=session,user_update=updated_user,user_id=userid)
+        status = user.profile_update(session=session,user_update=updated_user,id=userid)
+        
         return status
     except Exception as e:
         raise HTTPException(
@@ -38,17 +39,18 @@ def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpd
         )
     
 @router.get("/get_user_by_id")
-def get_user_by_id(*,session:Session = Depends(get_session)): #jwt token
+def get_user_by_id(*,session:Session = Depends(get_session),id): #jwt token
     user = session.get(Users , id)
     return user
 
 
-@router.get("/get_all_user")
+@router.get("/get_all_user") #Error : Joined eger load, Solution : .Unique() add to remove duplicate rows
 def get_all_user(*,session:Session = Depends(get_session)): #jwt token by role(pm)
-    user = session.exec(select(Users)).all()
+    statement = select(Users) #Need to be used: selectinload(Users.task_assigned) retrieve related objects along with the main objects in a single query thus reducing the number of database round-trips and improving performance.
+    user = session.exec(statement).unique().all()
     return user
 
-@router.put('/chanage_password')
-def change_password(*,session:Session = Depends(get_session),new_password): #jwt token
-    status = UserCRUD.password_change(session=session,new_password=new_password)
+@router.put('/change_password')
+def change_password(*,session:Session = Depends(get_session),id,new_password): #jwt token
+    status = UserCRUD.password_change(session=session,id=id,new_password=new_password)
     return status
