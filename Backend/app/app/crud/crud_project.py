@@ -38,6 +38,17 @@ class ProjectCRUD:
         session.refresh()
         return {"status":True}
     
+    def project_delete(session,project_id):
+        project = session.get(Projects,project_id)
+        if not project:
+            raise HTTPException(
+                status_code=404,
+                detail="Project Not Found"
+            )
+        session.delete(project)
+        session.commit()
+        return {"status":True}
+    
 
 
 

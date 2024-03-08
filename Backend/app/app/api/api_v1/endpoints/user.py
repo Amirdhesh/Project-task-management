@@ -1,6 +1,6 @@
 from fastapi import Depends,APIRouter,HTTPException
 from db.init_db import Session,get_session
-from schemas.user import UserCreate,UserUpdate
+from schemas.user import UserCreate,UserUpdate,UserRead
 from crud.crud_user import UserCRUD
 from model import Users
 from sqlmodel import select
@@ -25,6 +25,7 @@ def create_user(*,session:Session = Depends(get_session),user_detail:UserCreate)
             detail=f"Error encountered : {e}"
         )
 
+
 @router.put('/profile_update')
 def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpdate,userid): #JWT to be added
     try:
@@ -38,13 +39,13 @@ def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpd
             detail="Error Encountered"
         )
     
-@router.get("/get_user_by_id")
+@router.get("/get_user_by_id",response_model=UserRead)
 def get_user_by_id(*,session:Session = Depends(get_session),id): #jwt token
     user = session.get(Users , id)
     return user
 
 
-@router.get("/get_all_user") #Error : Joined eger load, Solution : .Unique() add to remove duplicate rows
+@router.get("/get_all_user",response_model=UserRead) #Error : Joined eger load, Solution : .Unique() add to remove duplicate rows
 def get_all_user(*,session:Session = Depends(get_session)): #jwt token by role(pm)
     statement = select(Users) #Need to be used: selectinload(Users.task_assigned) retrieve related objects along with the main objects in a single query thus reducing the number of database round-trips and improving performance.
     user = session.exec(statement).unique().all()

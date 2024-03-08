@@ -23,7 +23,7 @@ def create_projects(*,session : Session = Depends(get_session),new_project:Proje
         )
     
 
-@route.get('/get_project_by_name')
+@route.get('/get_project_by_name',response_model=ProjectRead)
 def get_project_by_name(*,session:Session = Depends(get_session),project_name):
     project = projectCRUD.get_project_by_name(session=session,project_name=project_name)
     print(project)
@@ -32,3 +32,15 @@ def get_project_by_name(*,session:Session = Depends(get_session),project_name):
 def update_project(*,session:Session = Depends(get_session),project_name,project_update:ProjectUpdate):
     update = projectCRUD.update_project(session=session,project_name=project_name,project_update=project_update)
     return update
+
+
+@route.delete('/delete_project')
+def delete_project(*,session:Session = Depends(get_session),project_id): #JWT_token
+    try:
+        result = projectCRUD.project_delete(session=session,project_id=project_id)
+        return result
+    except Exception as e:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Error occured {e}"
+        )

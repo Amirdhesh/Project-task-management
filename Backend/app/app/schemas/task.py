@@ -12,8 +12,6 @@ class TaskBase(SQLModel):
     project_id : Optional[int] = Field(default=None, foreign_key="projects.id")
 
 
-
-
 class Taskcreate(TaskBase):
     pass
 
