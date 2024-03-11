@@ -7,10 +7,10 @@ route = APIRouter()
 
 
 @route.post('/create_task')
-def add_task(*,session:Session = Depends(get_session),task_details):#jwt by role
+def add_task(*,session:Session = Depends(get_session),task_details:Taskcreate):#jwt by role
     try:
         task_exist = taskCRUD.get_task_by_name(session,task_details.name)
-        if not task_exist:
+        if task_exist:
             raise HTTPException(
                 status_code=400,
                 detail="Task already exist under this name"
@@ -54,9 +54,9 @@ def update_task_status(*,session:Session = Depends(get_session),task_update:Task
     
 
 @route.delete('/delete_task')
-def delete_task(*,session:Session = Depends(get_session),task_id):
+def delete_task(*,session:Session = Depends(get_session),task_id:int):
     try:
-        result = taskCRUD.task_delete(session=session,task_id=task_id)
+        result = taskCRUD.task_delete(session=session,id=task_id)
         return result
     except Exception as e:
         raise HTTPException(

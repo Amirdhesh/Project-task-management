@@ -7,7 +7,7 @@ from fastapi.encoders import jsonable_encoder
 class TasksCrud:
     def get_task_by_name(self,session,task_name):
         statement = select(Tasks).where(Tasks.name == task_name)
-        result = exec(statement).first()
+        result = session.exec(statement).first()
         return result
     def add_new_task(self,session,task_details:Taskcreate):
         task_details = jsonable_encoder(task_details)
@@ -24,8 +24,9 @@ class TasksCrud:
         session.commit()
         session.refresh()
         return True
-    def task_delete(self,session,task_id):
-        task = session.get(Tasks,task_id)
+    def task_delete(self,session,id):
+        task = session.get(Tasks,id)
+        print(task)
         if not task:
             raise HTTPException(
                 status_code=400,

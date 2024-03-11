@@ -26,7 +26,7 @@ def create_projects(*,session : Session = Depends(get_session),new_project:Proje
 @route.get('/get_project_by_name',response_model=ProjectRead)
 def get_project_by_name(*,session:Session = Depends(get_session),project_name):
     project = projectCRUD.get_project_by_name(session=session,project_name=project_name)
-    print(project)
+    return project
 
 @route.put('/update_project')
 def update_project(*,session:Session = Depends(get_session),project_name,project_update:ProjectUpdate):

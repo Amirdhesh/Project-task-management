@@ -12,7 +12,7 @@ class UserCRUD:
         session.add(user)
         session.commit()
         session.refresh(user)
-        return {"Status":'Success'}
+        return {"status":'Success'}
     
 
     def get_user_by_mail_id(self,session,email:str):

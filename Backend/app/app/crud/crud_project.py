@@ -17,28 +17,29 @@ class ProjectCRUD:
         return {"status":True}
     
 
-    def get_project_by_name(self, session, project_name) -> ProjectRead:
+    def get_project_by_name(self, session, project_name):
         statement = select(Projects).where(Projects.name == project_name)
-        result = session.execute(statement).first()
-        return {"status" : True , "project" : result}
+        result = session.exec(statement).scalar_one_or_none()
+        return result
     
 
-    def update_project(self,session,project_name,project_update):
+    def update_project(self,session,project_name,project_update:ProjectUpdate):
         statement = select(Projects).where(Projects.name == project_name)
-        result = session.execute(statement).first()
-        if not result:
+        project = session.exec(statement).one()
+        if not project:
             raise HTTPException(
                 status_code=404,
                 detail="Project not found"
             )
-        updates = project_update.model_dump(exclude_unset = True)
-        result.sqlmodel_update(updates)
-        session.add(result)
+        print(project)
+        updates = project_update.model_dump(exclude_unset=True)
+        project.sqlmodel_update(updates)
+        session.add(project)
         session.commit()
         session.refresh()
         return {"status":True}
     
-    def project_delete(session,project_id):
+    def project_delete(self,session,project_id):
         project = session.get(Projects,project_id)
         if not project:
             raise HTTPException(
