@@ -26,8 +26,8 @@ def create_user(*,session:Session = Depends(get_session),user_detail:UserCreate)
         )
 
 
-@router.put('/profile_update')
-def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpdate,userid): #JWT to be added
+@router.patch('/profile_update')
+def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpdate,userid:int): #JWT to be added
     try:
         user = UserCRUD()
         status = user.profile_update(session=session,user_update=updated_user,id=userid)
@@ -36,7 +36,7 @@ def profile_update(*,session:Session = Depends(get_session),updated_user:UserUpd
     except Exception as e:
         raise HTTPException(
             status_code=409,
-            detail="Error Encountered"
+            detail=f"Error Encountered {e}"
         )
     
 @router.get("/get_user_by_id",response_model=UserRead)

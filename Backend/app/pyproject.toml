@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-sqlmodel = "^0.0.14"
+sqlmodel = "^0.0.16"
 fastapi = "^0.109.0"
 alembic = "^1.13.1"
 black = "^23.12.1"

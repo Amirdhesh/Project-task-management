@@ -36,7 +36,7 @@ class ProjectCRUD:
         project.sqlmodel_update(updates)
         session.add(project)
         session.commit()
-        session.refresh()
+        session.refresh(project)
         return {"status":True}
     
     def project_delete(self,session,project_id):

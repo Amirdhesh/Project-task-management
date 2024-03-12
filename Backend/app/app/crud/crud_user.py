@@ -29,10 +29,11 @@ class UserCRUD:
             )
         
         updates = user_update.model_dump(exclude_unset=True)
+        print(updates)
         user.sqlmodel_update(updates)
         session.add(user)
         session.commit()
-        session.refresh()
+        session.refresh(user)
         return {'status' : True}
     
 

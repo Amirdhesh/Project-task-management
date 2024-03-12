@@ -22,8 +22,8 @@ class TasksCrud:
         Tasks.sqlmodel_update(task_update)
         session.add(task)
         session.commit()
-        session.refresh()
-        return True
+        session.refresh(task)
+        return {"status":True}
     def task_delete(self,session,id):
         task = session.get(Tasks,id)
         print(task)
