@@ -4,7 +4,11 @@ from schemas.user import UserCreate,UserUpdate
 from model import Users
 from sqlmodel import SQLModel,select
 import bcrypt
-class UserCRUD:
+class userCRUD:
+    def display_all_user(self,session):
+        statement = select(Users)
+        result = session.exec(statement).unique().all() #Error encountered: exec() arg 1 must be a string, bytes or code object solution: session
+        return result
     def New_user(self,session,User_details: UserCreate):
         User_details.password = bcrypt.hashpw(User_details.password.encode('utf-8').bcrypt.gensalt())
         details = jsonable_encoder(User_details)
@@ -50,3 +54,5 @@ class UserCRUD:
         session.refresh(user)
         return {'status':True}
         
+
+UserCRUD = userCRUD()

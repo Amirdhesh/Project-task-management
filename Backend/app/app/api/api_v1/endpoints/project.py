@@ -2,6 +2,7 @@ from fastapi import APIRouter,Depends,HTTPException
 from db.init_db import Session,get_session
 from crud.crud_project import projectCRUD
 from schemas.project import ProjectCreate,ProjectRead,ProjectUpdate
+from schemas.relationship import projectrelationship
 route = APIRouter()
 
 
@@ -23,7 +24,7 @@ def create_projects(*,session : Session = Depends(get_session),new_project:Proje
         )
     
 
-@route.get('/get_project_by_name',response_model=ProjectRead)
+@route.get('/get_project_by_name',response_model=projectrelationship)
 def get_project_by_name(*,session:Session = Depends(get_session),project_name):
     project = projectCRUD.get_project_by_name(session=session,project_name=project_name)
     return project

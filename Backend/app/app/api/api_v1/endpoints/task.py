@@ -3,6 +3,7 @@ from schemas.task import Taskcreate,TaskRead,TaskUpdate
 from db.init_db import Session,get_session
 from crud.crud_task import taskCRUD
 from model import Tasks
+from schemas.relationship import taskrelationship
 route = APIRouter()
 
 
@@ -24,7 +25,7 @@ def add_task(*,session:Session = Depends(get_session),task_details:Taskcreate):#
         )
     
 
-@route.get('/get_user_task',response_model=TaskRead)
+@route.get('/get_user_task',response_model=taskrelationship)
 def get_user_task(*,session:Session = Depends(get_session),user_id):#jwt_token
     try:
         task = session.get(Tasks,user_id)

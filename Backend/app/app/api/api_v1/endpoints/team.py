@@ -1,11 +1,12 @@
 from fastapi import APIRouter,Depends,HTTPException
 from db.init_db import get_session,Session
 from crud.crud_team import teamCRUD
-from schemas.team import TeamCreate,TeamRead,TeamUpdate
-
+from schemas.team import TeamCreate,TeamUpdate
+from schemas.relationship import teamrelationship
+from typing import List
 route = APIRouter()
 
-@route.get('/display_all_teams')
+@route.get('/display_all_teams',response_model=List[teamrelationship])
 def display_all_teams(*,session:Session=Depends(get_session)):#jwt token
     try:
         result = teamCRUD.display_all_team(session=session)
