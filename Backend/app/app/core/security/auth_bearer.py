@@ -2,10 +2,11 @@ from typing import Coroutine
 from typing_extensions import Annotated, Doc
 from fastapi import requests,HTTPException
 from fastapi.security import HTTPBearer,HTTPAuthorizationCredentials
-from auth_handler import decodeJWT
+from core.security.auth_handler import decodeJWT
+from typing import Optional
 class JWTBearer(HTTPBearer):
     role = "member"
-    def __init__(self, auto_error: bool = True, role:str | None = "member"):
+    def __init__(self, auto_error: bool = True, role: Optional[str] = "member"):
         super(JWTBearer,self).__init__( auto_error=auto_error)
         self.role = role
     

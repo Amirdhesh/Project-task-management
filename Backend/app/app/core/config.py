@@ -7,8 +7,8 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    JWT_secret = "your_secret_key_here"
-    db_URL = os.getenv('MYSQL')
+    JWT_secret:str = "your_secret_key_here"
+    db_URL:str = os.getenv('MYSQL')
 
 
 

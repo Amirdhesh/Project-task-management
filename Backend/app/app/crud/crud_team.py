@@ -40,6 +40,18 @@ class TeamCRUD:
         return {"status":True}
     
 
+    def team_delete(self,session,id):
+        team = session.get(Teams,id)
+        if not team:
+            raise HTTPException(
+                status_code=400,
+                detail="task not found"
+            )
+        session.delete(team)
+        session.commit()
+        return {'status':True}
+    
+
 
 
 
